@@ -11,11 +11,17 @@ function App() {
 
 
  const completeHandler = (id:TodoItemType["id"]):void =>{
-  alert(id)
+  const newTodos:TodoItemType[] = todos.map((i)=>{
+    if(i.id === id) i.isCompleted = !i.isCompleted;
+    return i ;
+  })
+  setTodos(newTodos)
  }
  const deleteHandler = (id:TodoItemType["id"]):void =>{
-  alert(id)
+  const deleteTodos:TodoItemType[] = todos.filter((i)=> i.id !== id);
+  setTodos(deleteTodos)
  }
+
  const submitHandler = ():void =>{
   const newTodo:TodoItemType = {
     title ,
@@ -25,6 +31,13 @@ function App() {
   setTodos(prev => ([...prev, newTodo]))
   setTitle("")
  }
+const editHandler = (id:TodoItemType["id"] , newTitle: TodoItemType["title"]):void =>{
+  const editTodos : TodoItemType[] = todos.map((i)=>{
+    if(i.id === id) i.title = newTitle;
+    return i
+  })
+setTodos(editTodos)
+}
 
   return <Container maxWidth="sm" sx={{height: "100vh"}}>
     <AppBar position="static">
@@ -41,6 +54,7 @@ function App() {
               <TodoItems 
               completeHandler={completeHandler} 
               deleteHandler={deleteHandler}
+              editHandler={editHandler}
               key={i.id} 
               todo={i}/>
             ))
